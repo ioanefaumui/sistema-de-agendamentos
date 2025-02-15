@@ -1,7 +1,9 @@
+import { LoginForm } from "@/features/auth";
+
 export default function Home() {
   return (
-    <div>
-      <h1 className="text-4xl font-bold text-red-600">Hello world</h1>
-    </div>
+    <main className="h-full content-center">
+      <LoginForm />
+    </main>
   );
 }
