@@ -1,7 +1,9 @@
+import { LoginForm } from "@/features/auth";
+
 export default function Login() {
   return (
-    <>
-      <h1>Página de login</h1>
-    </>
+    <main className="h-full content-center">
+      <LoginForm />
+    </main>
   );
 }

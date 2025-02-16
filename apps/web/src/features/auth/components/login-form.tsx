@@ -21,6 +21,7 @@ import { LoginFormSchema } from "../types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginFormSchema } from "../utils";
 import Link from "next/link";
+import { login } from "../actions";
 
 export function LoginForm() {
   const form = useForm<LoginFormSchema>({
@@ -31,10 +32,6 @@ export function LoginForm() {
     },
   });
 
-  const onSubmit = (values: LoginFormSchema) => {
-    console.log(values);
-  };
-
   return (
     <Card className="w-full max-w-sm mx-auto">
       <CardHeader>
@@ -43,7 +40,7 @@ export function LoginForm() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form className="w-full" onSubmit={form.handleSubmit(onSubmit)}>
+          <form className="w-full" onSubmit={form.handleSubmit(login)}>
             <FormField
               control={form.control}
               name="email"
@@ -70,7 +67,12 @@ export function LoginForm() {
                 </FormItem>
               )}
             />
-            <Button className="mt-6 w-full">Login</Button>
+            <Button
+              className="mt-6 w-full"
+              disabled={form.formState.isSubmitting}
+            >
+              Login
+            </Button>
           </form>
         </Form>
       </CardContent>
