@@ -28,7 +28,9 @@ model Service {
   id           String        @id @default(uuid())
   name         String
   duration     Int
-  price        Decimal?
+  price        Decimal
+  startTime    String
+  endTime      String
   appointments Appointment[]
 }
 
