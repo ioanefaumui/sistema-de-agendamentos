@@ -1,14 +1,7 @@
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarHeader,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { AppSidebar } from "./app-sidebar";
 
 export default async function RootLayout({
   children,
@@ -23,19 +16,14 @@ export default async function RootLayout({
   }
 
   return (
-    <>
-      <SidebarProvider>
-        <Sidebar>
-          <SidebarHeader />
-          <SidebarContent>
-            <SidebarGroup />
-            <SidebarGroup />
-          </SidebarContent>
-          <SidebarFooter />
-        </Sidebar>
-        <SidebarTrigger />
+    <SidebarProvider>
+      <AppSidebar />
+      <div className="w-full">
+        <header className="p-3 border-b">
+          <SidebarTrigger className="cursor-pointer" />
+        </header>
         {children}
-      </SidebarProvider>
-    </>
+      </div>
+    </SidebarProvider>
   );
 }
