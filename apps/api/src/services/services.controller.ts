@@ -6,12 +6,17 @@ import {
   Post,
   Body,
   UseGuards,
+  ParseUUIDPipe,
+  Put,
+  Param,
+  Delete,
 } from '@nestjs/common';
 import { ServicesService } from './services.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { Roles } from 'src/auth/roles.decorator';
+import { UpdateServiceDto } from './dto/update-service.dto';
 
 @Controller('services')
 export class ServicesController {
@@ -30,5 +35,22 @@ export class ServicesController {
   @Post()
   async create(@Body() createServiceDto: CreateServiceDto) {
     return this.servicesService.create(createServiceDto);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  @Put(':id')
+  async update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateServiceDto: UpdateServiceDto,
+  ) {
+    return this.servicesService.update(id, updateServiceDto);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  @Delete(':id')
+  async remove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.servicesService.remove(id);
   }
 }
