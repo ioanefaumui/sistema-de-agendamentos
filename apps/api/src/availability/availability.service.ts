@@ -2,7 +2,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import * as dayjs from 'dayjs';
+import * as utc from 'dayjs/plugin/utc';
 import * as isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+
+dayjs.extend(utc);
 dayjs.extend(isSameOrBefore);
 
 @Injectable()
@@ -17,13 +20,15 @@ export class AvailabilityService {
       throw new NotFoundException('Serviço não encontrado');
     }
 
-    const workingStart = dayjs(`${date}T${service.startTime}`);
-    const workingEnd = dayjs(`${date}T${service.endTime}`);
+    // Cria os horários de início e fim em UTC
+    const workingStart = dayjs.utc(`${date}T${service.startTime}`);
+    const workingEnd = dayjs.utc(`${date}T${service.endTime}`);
 
     if (!workingStart.isValid() || !workingEnd.isValid()) {
       throw new Error('Horários de funcionamento inválidos');
     }
 
+    // Busca os agendamentos existentes no período
     const appointments = await this.prisma.appointment.findMany({
       where: {
         serviceId,
@@ -34,8 +39,9 @@ export class AvailabilityService {
       },
     });
 
+    // Converte os horários dos agendamentos para UTC no formato "HH:mm:ss"
     const bookedSlots = appointments.map((app) =>
-      dayjs(app.appointmentTime).format('HH:mm:ss'),
+      dayjs.utc(app.appointmentTime).format('HH:mm:ss'),
     );
 
     const availableSlots: { start: string; end: string }[] = [];
