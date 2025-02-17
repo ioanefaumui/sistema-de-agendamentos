@@ -1,26 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAppointmentDto } from './dto/create-appointment.dto';
-import { UpdateAppointmentDto } from './dto/update-appointment.dto';
+import { PrismaService } from '../prisma/prisma.service';
 import { Appointment } from '@prisma/client';
-import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class AppointmentsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(createAppointmentDto: CreateAppointmentDto) {
-    return 'This action adds a new appointment';
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} appointment`;
-  }
-
-  update(id: number, updateAppointmentDto: UpdateAppointmentDto) {
-    return `This action updates a #${id} appointment`;
-  }
-
-  findByUserId(
+  async findByUserIdPaginated(
     userId: string,
     page: number,
     limit: number,
@@ -30,11 +16,7 @@ export class AppointmentsService {
       where: { userId },
       skip,
       take: limit,
-      orderBy: { createdAt: 'desc' },
+      orderBy: { appointmentTime: 'asc' },
     });
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} appointment`;
   }
 }

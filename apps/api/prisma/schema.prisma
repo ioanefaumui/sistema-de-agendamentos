@@ -16,12 +16,13 @@ enum Role {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  role      Role     @default(user)
-  createdAt DateTime @default(now())
+  id           String        @id @default(uuid())
+  name         String
+  email        String        @unique
+  password     String
+  role         Role          @default(user)
+  createdAt    DateTime      @default(now())
+  appointments Appointment[]
 }
 
 model Service {
@@ -35,10 +36,12 @@ model Service {
 }
 
 model Appointment {
-  id        String   @id @default(uuid())
-  userId    String
-  serviceId String?
-  createdAt DateTime @default(now())
+  id              String   @id @default(uuid())
+  userId          String
+  serviceId       String
+  appointmentTime DateTime
+  createdAt       DateTime @default(now())
 
-  service Service? @relation(fields: [serviceId], references: [id])
+  service Service @relation(fields: [serviceId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
 }
