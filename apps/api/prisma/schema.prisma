@@ -30,8 +30,8 @@ model Service {
   name         String
   duration     Int
   price        Decimal
-  startTime    String
-  endTime      String
+  startTime    DateTime
+  endTime      DateTime
   appointments Appointment[]
 }
 
