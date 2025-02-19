@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, Min, Max, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, Min, Max, IsDateString } from 'class-validator';
 
 export class CreateServiceDto {
   @IsNotEmpty()
@@ -18,10 +18,10 @@ export class CreateServiceDto {
   price: number;
 
   @IsNotEmpty()
-  @IsString()
+  @IsDateString()
   startTime: string;
 
   @IsNotEmpty()
-  @IsString()
+  @IsDateString()
   endTime: string;
 }
