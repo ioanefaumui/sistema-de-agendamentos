@@ -21,6 +21,11 @@ export class AppointmentsService {
       skip,
       take: limit,
       orderBy: { appointmentTime: 'asc' },
+      include: {
+        service: {
+          select: { name: true, price: true },
+        },
+      },
     });
   }
 
