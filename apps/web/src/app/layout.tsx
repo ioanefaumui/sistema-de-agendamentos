@@ -5,6 +5,7 @@ import { AuthProvider } from "@/context";
 import { cookies } from "next/headers";
 import { jwtVerify } from "jose";
 import { Toaster } from "@/components/ui/sonner";
+import NextTopLoader from "nextjs-toploader";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -39,6 +40,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${manrope.className} antialiased`}>
         <AuthProvider initialRole={role} initialToken={token}>
+          <NextTopLoader showSpinner={false} />
           {children}
           <Toaster position="top-right" duration={5000} />
         </AuthProvider>
