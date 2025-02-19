@@ -1,4 +1,3 @@
-// src/availability/availability.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import * as dayjs from 'dayjs';
@@ -20,15 +19,16 @@ export class AvailabilityService {
       throw new NotFoundException('Serviço não encontrado');
     }
 
-    // Cria os horários de início e fim em UTC
-    const workingStart = dayjs.utc(`${date}T${service.startTime}`);
-    const workingEnd = dayjs.utc(`${date}T${service.endTime}`);
+    const serviceStartTimeStr = dayjs.utc(service.startTime).format('HH:mm:ss');
+    const serviceEndTimeStr = dayjs.utc(service.endTime).format('HH:mm:ss');
+
+    const workingStart = dayjs.utc(`${date}T${serviceStartTimeStr}`);
+    const workingEnd = dayjs.utc(`${date}T${serviceEndTimeStr}`);
 
     if (!workingStart.isValid() || !workingEnd.isValid()) {
       throw new Error('Horários de funcionamento inválidos');
     }
 
-    // Busca os agendamentos existentes no período
     const appointments = await this.prisma.appointment.findMany({
       where: {
         serviceId,
@@ -39,31 +39,36 @@ export class AvailabilityService {
       },
     });
 
-    // Converte os horários dos agendamentos para UTC no formato "HH:mm:ss"
     const bookedSlots = appointments.map((app) =>
       dayjs.utc(app.appointmentTime).format('HH:mm:ss'),
     );
 
-    const availableSlots: { start: string; end: string }[] = [];
-    let slotStart = workingStart;
+    const slots: { start: string; end: string; available: boolean }[] = [];
+    let currentSlotStart = workingStart;
     while (
-      slotStart.add(service.duration, 'minute').isSameOrBefore(workingEnd)
+      currentSlotStart
+        .add(service.duration, 'minute')
+        .isSameOrBefore(workingEnd)
     ) {
-      const slotEnd = slotStart.add(service.duration, 'minute');
-      const slotStartFormatted = slotStart.format('HH:mm:ss');
-      if (!bookedSlots.includes(slotStartFormatted)) {
-        availableSlots.push({
-          start: slotStartFormatted,
-          end: slotEnd.format('HH:mm:ss'),
-        });
-      }
-      slotStart = slotEnd;
+      const currentSlotEnd = currentSlotStart.add(service.duration, 'minute');
+      const slotStartFormatted = currentSlotStart.format('HH:mm:ss');
+      const slotEndFormatted = currentSlotEnd.format('HH:mm:ss');
+
+      const isBooked = bookedSlots.includes(slotStartFormatted);
+
+      slots.push({
+        start: slotStartFormatted,
+        end: slotEndFormatted,
+        available: !isBooked,
+      });
+
+      currentSlotStart = currentSlotEnd;
     }
 
     return {
       service: service.name,
       date,
-      availableSlots,
+      slots,
     };
   }
 }
