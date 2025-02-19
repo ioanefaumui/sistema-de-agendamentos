@@ -21,6 +21,7 @@ import { useAppointments } from "@/features/appointments";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { Loader2 } from "lucide-react";
+import { getLocalTime, hasTimePassed } from "../utils";
 dayjs.extend(utc);
 
 export function ServiceDetailDialog({
@@ -117,7 +118,9 @@ export function ServiceDetailDialog({
               {slots.map((s, i) => (
                 <div
                   onClick={() => handleSelectTime(s.start)}
-                  aria-disabled={!s.available}
+                  aria-disabled={
+                    !s.available || hasTimePassed(date || "", s.start)
+                  }
                   key={`${i}${date}`}
                   className="flex items-center bg-accent hover:bg-primary-foreground dark:bg-muted rounded-sm  hover:dark:bg-primary-foreground
                   aria-disabled:text-destructive text-chart-2 aria-disabled:dark:bg-primary-foreground aria-disabled:opacity-50  aria-disabled:pointer-events-none"
@@ -129,10 +132,7 @@ export function ServiceDetailDialog({
                     className="relative flex items-center justify-center px-5 h-full border-none before:absolute before:border before:size-4 before:rounded-full shadow-none disabled:before:border-destructive"
                   />
                   <Label htmlFor={i.toString()} className="w-full p-4 pl-0">
-                    {dayjs
-                      .utc(`${format(date || "", "yyyy-MM-dd")}T${s.start}`)
-                      .local()
-                      .format("HH:mm")}
+                    {getLocalTime(date || "", s.start)}
                   </Label>
                 </div>
               ))}
