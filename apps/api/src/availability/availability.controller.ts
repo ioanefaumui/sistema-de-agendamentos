@@ -1,4 +1,3 @@
-// src/availability/availability.controller.ts
 import { Controller, Get, Query } from '@nestjs/common';
 import { AvailabilityService } from './availability.service';
 
