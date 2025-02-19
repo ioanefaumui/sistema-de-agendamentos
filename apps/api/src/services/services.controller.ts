@@ -15,7 +15,7 @@ import { ServicesService } from './services.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { CreateServiceDto } from './dto/create-service.dto';
-import { Roles } from 'src/auth/roles.decorator';
+import { Roles } from '../auth/roles.decorator';
 import { UpdateServiceDto } from './dto/update-service.dto';
 
 @Controller('services')
