@@ -1,6 +1,6 @@
 import { LoginForm } from "@/features/auth";
 
-export default function Login() {
+export default async function Login() {
   return (
     <main className="h-full content-center">
       <LoginForm />
