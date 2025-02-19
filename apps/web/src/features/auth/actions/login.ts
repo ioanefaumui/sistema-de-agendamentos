@@ -22,6 +22,8 @@ export async function login(values: LoginFormSchema) {
       value: result.access_token,
       httpOnly: true,
     });
-    redirect("/inicio");
+    redirect("/servicos");
   }
+
+  return { message: await response.json() };
 }

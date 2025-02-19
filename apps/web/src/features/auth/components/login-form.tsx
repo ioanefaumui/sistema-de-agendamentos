@@ -22,6 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginFormSchema } from "../utils";
 import Link from "next/link";
 import { login } from "../actions";
+import { Loader2 } from "lucide-react";
 
 export function LoginForm() {
   const form = useForm<LoginFormSchema>({
@@ -32,6 +33,16 @@ export function LoginForm() {
     },
   });
 
+  const handleLogin = async (values: LoginFormSchema) => {
+    const response = await login(values);
+
+    if (response.message.error) {
+      form.setError("email", { message: "Email ou senha inválidos" });
+      form.setError("password", { message: "Email ou senha inválidos" });
+    }
+    console.log(response);
+  };
+
   return (
     <Card className="w-full max-w-sm mx-auto">
       <CardHeader>
@@ -40,7 +51,7 @@ export function LoginForm() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form className="w-full" onSubmit={form.handleSubmit(login)}>
+          <form className="w-full" onSubmit={form.handleSubmit(handleLogin)}>
             <FormField
               control={form.control}
               name="email"
@@ -48,7 +59,11 @@ export function LoginForm() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Email" {...field} />
+                    <Input
+                      placeholder="Email"
+                      autoComplete="email"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -61,7 +76,12 @@ export function LoginForm() {
                 <FormItem className="mt-4">
                   <FormLabel>Senha</FormLabel>
                   <FormControl>
-                    <Input placeholder="Senha" {...field} />
+                    <Input
+                      type="password"
+                      autoComplete="current-password"
+                      placeholder="Senha"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -71,7 +91,11 @@ export function LoginForm() {
               className="mt-6 w-full"
               disabled={form.formState.isSubmitting}
             >
-              Login
+              {form.formState.isSubmitting ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                "Login"
+              )}
             </Button>
           </form>
         </Form>
