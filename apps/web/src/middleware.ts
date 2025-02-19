@@ -7,11 +7,13 @@ export async function middleware(request: NextRequest) {
   const loginUrl = new URL("/login", request.url);
   const servicosUrl = new URL("/servicos", request.url);
 
+  const publicRoutes = ["/login", "/cadastrar"];
+
   if (request.nextUrl.pathname === "/") {
     return NextResponse.redirect(loginUrl);
   }
 
-  if (request.nextUrl.pathname === "/login") {
+  if (publicRoutes.includes(request.nextUrl.pathname)) {
     if (token) {
       try {
         const secret = new TextEncoder().encode(process.env.JWT_SECRET);

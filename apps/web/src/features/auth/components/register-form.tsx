@@ -17,40 +17,43 @@ import {
   FormMessage,
 } from "@/components";
 import { useForm } from "react-hook-form";
-import { LoginFormSchema } from "../types";
+import { RegisterFormSchema } from "../types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginFormSchema } from "../utils";
+import { registerFormSchema } from "../utils";
 import Link from "next/link";
-import { login } from "../actions";
+import { register } from "../actions";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
-export function LoginForm() {
-  const form = useForm<LoginFormSchema>({
-    resolver: zodResolver(loginFormSchema),
+export function RegisterForm() {
+  const form = useForm<RegisterFormSchema>({
+    resolver: zodResolver(registerFormSchema),
     defaultValues: {
       email: "",
       password: "",
+      passwordCopy: "",
     },
   });
 
-  const handleLogin = async (values: LoginFormSchema) => {
-    const response = await login(values);
+  const handleRegister = async (values: RegisterFormSchema) => {
+    const response = await register(values);
 
     if (response.message.error) {
-      form.setError("email", { message: "Email ou senha inválidos" });
-      form.setError("password", { message: "Email ou senha inválidos" });
+      toast.error("Houve um erro no servidor. Tente novamente mais tarde.");
+    } else {
+      toast.success("Cadastro realizado com sucesso!");
     }
   };
 
   return (
     <Card className="w-full max-w-sm mx-auto">
       <CardHeader>
-        <CardTitle>Bem vindo de volta</CardTitle>
-        <CardDescription>Entre com suas informações</CardDescription>
+        <CardTitle>Crie sua conta</CardTitle>
+        <CardDescription>Comece a fazer agendamentos</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form className="w-full" onSubmit={form.handleSubmit(handleLogin)}>
+          <form className="w-full" onSubmit={form.handleSubmit(handleRegister)}>
             <FormField
               control={form.control}
               name="email"
@@ -86,6 +89,24 @@ export function LoginForm() {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="passwordCopy"
+              render={({ field }) => (
+                <FormItem className="mt-4">
+                  <FormLabel>Repetir senha</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      autoComplete="current-password"
+                      placeholder="Senha"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <Button
               className="mt-6 w-full"
               disabled={form.formState.isSubmitting}
@@ -93,19 +114,16 @@ export function LoginForm() {
               {form.formState.isSubmitting ? (
                 <Loader2 className="animate-spin" />
               ) : (
-                "Login"
+                "Cadastrar"
               )}
             </Button>
           </form>
         </Form>
       </CardContent>
       <CardFooter className="flex gap-x-1 justify-center text-sm">
-        <p className="text-muted-foreground">Não possui uma conta?</p>{" "}
-        <Link
-          href={"/cadastrar"}
-          className="hover:underline hover:text-foreground"
-        >
-          Cadastrar
+        <p className="text-muted-foreground">Já possui uma conta?</p>{" "}
+        <Link href={"/"} className="hover:underline hover:text-foreground">
+          Login
         </Link>
       </CardFooter>
     </Card>

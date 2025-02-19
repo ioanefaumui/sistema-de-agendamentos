@@ -9,7 +9,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Login a user' })
+  @ApiOperation({ summary: 'Create a new user' })
   @ApiOkResponse({ type: CreateUserDto })
   @ApiBody({ type: CreateUserDto })
   async create(@Body() createUserDto: CreateUserDto) {
