@@ -100,8 +100,8 @@ export function LoginForm() {
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex gap-x-1 justify-center text-sm text-muted-foreground">
-        <p className="">Não possui uma conta?</p>{" "}
+      <CardFooter className="flex gap-x-1 justify-center text-sm">
+        <p className="text-muted-foreground">Não possui uma conta?</p>{" "}
         <Link href={"/"} className="hover:underline hover:text-foreground">
           Cadastrar
         </Link>
