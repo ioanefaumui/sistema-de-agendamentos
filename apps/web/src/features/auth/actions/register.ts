@@ -2,11 +2,11 @@
 
 import { cookies } from "next/headers";
 import { RegisterFormSchema } from "../types";
-import { redirect } from "next/navigation";
 import { api } from "@/lib";
 
 export async function register(values: RegisterFormSchema) {
   const { email, password } = values;
+  let success = false;
 
   const response = await fetch(`${api}/users`, {
     method: "POST",
@@ -22,8 +22,9 @@ export async function register(values: RegisterFormSchema) {
       value: result.access_token,
       httpOnly: true,
     });
-    redirect("/login");
+    success = true;
+    return { success };
   }
 
-  return { message: await response.json() };
+  return { success };
 }

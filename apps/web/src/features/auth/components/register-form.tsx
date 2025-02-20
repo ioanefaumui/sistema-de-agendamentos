@@ -24,6 +24,8 @@ import Link from "next/link";
 import { register } from "../actions";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { delay } from "@/utils";
+import { redirect } from "next/navigation";
 
 export function RegisterForm() {
   const form = useForm<RegisterFormSchema>({
@@ -38,11 +40,17 @@ export function RegisterForm() {
   const handleRegister = async (values: RegisterFormSchema) => {
     const response = await register(values);
 
-    if (response.message.error) {
-      toast.error("Houve um erro no servidor. Tente novamente mais tarde.");
-    } else {
-      toast.success("Cadastro realizado com sucesso!");
+    if (!response.success) {
+      return toast.error(
+        "Houve um erro no servidor. Tente novamente mais tarde."
+      );
     }
+
+    toast.success(
+      "Cadastro realizado com sucesso! Você será redirecionado para o login."
+    );
+    await delay(2000);
+    redirect("/login");
   };
 
   return (
