@@ -3,12 +3,12 @@
 import { cookies } from "next/headers";
 import { LoginFormSchema } from "../types";
 import { redirect } from "next/navigation";
-import { api } from "@/lib";
+import { serverApi } from "@/lib";
 
 export async function login(values: LoginFormSchema) {
   const { email, password } = values;
 
-  const response = await fetch(`${api}/auth/login`, {
+  const response = await fetch(`${serverApi}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),

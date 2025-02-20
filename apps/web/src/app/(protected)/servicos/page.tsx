@@ -2,7 +2,7 @@ import { Button } from "@/components";
 import { ServiceList } from "@/features/services";
 import { ServicesContextProvider } from "@/features/services/context/services-context";
 import { Service } from "@/features/services/types";
-import { api, serverApiClient } from "@/lib";
+import { serverApi, serverApiClient } from "@/lib";
 import Link from "next/link";
 import { Header } from "./header";
 
@@ -17,7 +17,7 @@ export default async function Servicos({
   searchParams: Promise<ServicosSearchParams>;
 }) {
   const { page, limit } = await searchParams;
-  const requestUrl = new URL(`${api}/services?page=1&limit=10`);
+  const requestUrl = new URL(`${serverApi}/services?page=1&limit=10`);
   if (page) {
     requestUrl.searchParams.set("page", page);
   }

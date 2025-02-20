@@ -2,13 +2,13 @@
 
 import { cookies } from "next/headers";
 import { RegisterFormSchema } from "../types";
-import { api } from "@/lib";
+import { serverApi } from "@/lib";
 
 export async function register(values: RegisterFormSchema) {
   const { email, password } = values;
   let success = false;
 
-  const response = await fetch(`${api}/users`, {
+  const response = await fetch(`${serverApi}/users`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),

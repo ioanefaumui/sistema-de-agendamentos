@@ -3,6 +3,7 @@
 import { useContext } from "react";
 import { ServicesContext } from "../context/services-context";
 import { useAbortableSWR } from "@/hooks";
+import { clientSideApi } from "@/lib";
 
 interface AvailabilityReponse {
   slots: { start: string; end: string; available: boolean }[];
@@ -17,7 +18,7 @@ export function useAvailability() {
     mutate,
   } = useAbortableSWR<AvailabilityReponse>(
     service.id && date
-      ? `http://localhost:3001/availability?serviceId=${service.id}&date=${date}`
+      ? `${clientSideApi}/availability?serviceId=${service.id}&date=${date}`
       : null,
     800
   );

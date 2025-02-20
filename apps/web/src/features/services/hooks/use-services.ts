@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { CreateServiceDto } from "../dto";
 import { delay } from "@/utils";
 import { useRouter } from "next/navigation";
+import { clientSideApi } from "@/lib";
 
 export function useServices() {
   const { token } = useAuth();
@@ -17,7 +18,7 @@ export function useServices() {
 
     try {
       delay(1000);
-      const response = await fetch("http://localhost:3001/services", {
+      const response = await fetch(`${clientSideApi}/services`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -28,7 +29,7 @@ export function useServices() {
 
       if (!response.ok) {
         const errorMessage = await response.text();
-        throw new Error(errorMessage || "Service creation failed");
+        throw new Error(errorMessage || "Falha ao criar o serviço");
       }
 
       toast.success("Serviço criado com sucesso");
@@ -52,7 +53,7 @@ export function useServices() {
 
     try {
       delay(1000);
-      const response = await fetch(`http://localhost:3001/services/${id}`, {
+      const response = await fetch(`${clientSideApi}/services/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +63,7 @@ export function useServices() {
 
       if (!response.ok) {
         const errorMessage = await response.text();
-        throw new Error(errorMessage || "Service deletion failed");
+        throw new Error(errorMessage || "Falha ao remover o serviço");
       }
 
       toast.success("Serviço removido com sucesso");

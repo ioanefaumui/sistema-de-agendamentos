@@ -5,6 +5,7 @@ import { useAuth } from "@/context";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { delay } from "@/utils";
+import { clientSideApi } from "@/lib";
 
 export function useAppointments() {
   const { token } = useAuth();
@@ -23,7 +24,7 @@ export function useAppointments() {
 
     try {
       await delay(1000);
-      const response = await fetch("http://localhost:3001/appointments", {
+      const response = await fetch(`${clientSideApi}/appointments`, {
         method: "POST",
         body: JSON.stringify({ serviceId, appointmentTime }),
         headers: {

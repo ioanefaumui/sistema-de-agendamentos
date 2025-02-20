@@ -1,5 +1,6 @@
+"use server";
+
 import { cookies } from "next/headers";
-export const api = process.env.API_URL || "http://localhost:3001";
 
 export async function serverApiClient(
   input: RequestInfo,

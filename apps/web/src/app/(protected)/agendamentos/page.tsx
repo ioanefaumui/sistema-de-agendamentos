@@ -1,6 +1,6 @@
 import { Button } from "@/components";
 import { Appointment, AppointmentList } from "@/features/appointments";
-import { api, serverApiClient } from "@/lib";
+import { serverApi, serverApiClient } from "@/lib";
 import Link from "next/link";
 
 interface AgendamentosSearchParams {
@@ -14,7 +14,7 @@ export default async function Agendamentos({
   searchParams: Promise<AgendamentosSearchParams>;
 }) {
   const { page, limit } = await searchParams;
-  const requestUrl = new URL(`${api}/appointments?page=1&limit=10`);
+  const requestUrl = new URL(`${serverApi}/appointments?page=1&limit=10`);
   if (page) {
     requestUrl.searchParams.set("page", page);
   }
