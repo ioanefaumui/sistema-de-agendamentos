@@ -2,6 +2,9 @@
 
 Este repositório contém um sistema de agendamentos com backend em **Nest.js** e frontend em **Next.js**. O sistema possibilita que usuários comuns agendem serviços e visualizem seus agendamentos, enquanto administradores podem criar, listar e excluir serviços.
 
+## Vídeo
+[scrnli_9Hgu926WlnYS5v.webm](https://github.com/user-attachments/assets/1842a266-6178-4590-b3ec-3bd41f1ba58f)
+
 ## Funcionalidades
 
 ### Autenticação
