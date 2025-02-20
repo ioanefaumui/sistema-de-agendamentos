@@ -1,27 +1,15 @@
-version: "3"
-
+version: "3.8"
 services:
-  web:
-    container_name: web
-    build:
-      context: .
-      dockerfile: ./apps/web/Dockerfile
-    restart: always
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: postgres
     ports:
-      - 3000:3000
-    networks:
-      - app_network
-  api:
-    container_name: api
-    build:
-      context: .
-      dockerfile: ./apps/api/Dockerfile
-    restart: always
-    ports:
-      - 3001:3001
-    networks:
-      - app_network
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
-networks:
-  app_network:
-    external: true
+volumes:
+  pgdata:
