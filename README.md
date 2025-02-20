@@ -3,6 +3,7 @@
 Este repositório contém um sistema de agendamentos com backend em **Nest.js** e frontend em **Next.js**. O sistema possibilita que usuários comuns agendem serviços e visualizem seus agendamentos, enquanto administradores podem criar, listar e excluir serviços.
 
 ## Vídeo
+
 [scrnli_9Hgu926WlnYS5v.webm](https://github.com/user-attachments/assets/1842a266-6178-4590-b3ec-3bd41f1ba58f)
 
 ## Funcionalidades
@@ -52,15 +53,78 @@ Este repositório contém um sistema de agendamentos com backend em **Nest.js** 
 
 ### Pré-requisitos
 
-- **Node.js** (v18 min, v20 ideal) e **npm** (v10.5.0 ideal) instalados.
-- **Git** instalado
+- **Node.js** (v18 min, v20 ideal) e **npm** (v10.8.2 ideal) instalados.
+- **Docker** para o banco de dados
 
 ## Passos para execução
 
 Foi utilizado linux ubuntu 24 com terminal bash para realização deste tutorial.
 
-**1.** Clone o repositório. Pode ser por HTTP ou SSH se preferir
+**1. Clone o repositório. Pode ser por HTTP ou SSH se preferir:**
 
 ```bash
 git clone https://github.com/ioanefaumui/sistema-de-agendamentos.git
+```
+
+---
+
+**2. Navegue até a aplicação e rode o comando `nvm use` para usar o versão recomendada do node:**
+
+```bash
+cd /sistema-de-agendamentos
+nvm use
+```
+
+---
+
+**3. Instale as dependências necessárias:**
+
+```bash
+npm install --legacy-peer-deps
+```
+
+---
+
+**4. Crie os arquivos e variáveis de ambiente para a api e para o cliente:**
+
+```ruby
+# apps/api/.env
+
+DATABASE_URL="URL para conexão com seu banco de dados"
+CORS_ORIGIN="Endereço do seu frontend"
+PORT="Porta do exposição do seu servidor"
+JWT_SECRET="Chave secreta e para encriptar o token. DEVE SER A MESMA CHAVE DO PROJETO WEB"
+ADMIN_EMAIL="Email para criar usuário ADMIN pelo script de seed"
+ADMIN_PASSWORD="Senha para criar usuário ADMIN pelo script de seed"
+```
+
+```ruby
+# apps/web/.env
+
+JWT_SECRET="Chave secreta e para encriptar o token. DEVE SER A MESMA CHAVE DO PROJETO API"
+NEXT_PUBLIC_API_URL="O endereço do seu servidor para realizar requisições"
+```
+
+---
+
+**5. Navegue até o diretório da api `apps/api` e gere os tipos das entidades do prisma:**
+
+```
+npx prisma generate
+```
+
+---
+
+**6. Rode o comando do docker-compose para fazer o build da imagem do banco de dados:**
+
+```
+docker-compose -f docker-compose.yml up -d
+```
+
+---
+
+**7. No root, inicie a aplicação:**
+
+```
+npm run dev
 ```
