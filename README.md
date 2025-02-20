@@ -128,3 +128,12 @@ docker-compose -f docker-compose.yml up -d
 ```
 npm run dev
 ```
+
+## Testes
+Para rodar testes, navegue até o diretório da api e rode o comando:
+```ruby
+cd apps/api
+npm run test
+```
+![test-suit](https://github.com/user-attachments/assets/92d69565-4149-4b65-93a7-28f098f3ffaf)
+
