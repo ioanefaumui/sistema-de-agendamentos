@@ -88,6 +88,14 @@ npm install --legacy-peer-deps
 **4. Crie os arquivos e variáveis de ambiente para a api e para o cliente:**
 
 ```ruby
+# .env
+
+POSTGRES_USER="Usuário do seu banco de dados"
+POSTGRES_PASSWORD="Senha do seu banco de dados"
+POSTGRES_DB="Nome do seu banco de dados"
+```
+
+```ruby
 # apps/api/.env
 
 DATABASE_URL="URL para conexão com seu banco de dados"
