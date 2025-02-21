@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
-    "lint": "turbo run lint"
+    "lint": "turbo run lint",
+    "start:test": "turbo run start:test"
   },
   "packageManager": "npm@10.8.2",
   "workspaces": [
