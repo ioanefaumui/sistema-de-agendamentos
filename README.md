@@ -93,12 +93,24 @@ npm install --legacy-peer-deps
 POSTGRES_USER="Usuário do seu banco de dados"
 POSTGRES_PASSWORD="Senha do seu banco de dados"
 POSTGRES_DB="Nome do seu banco de dados"
+POSTGRES_DB_TEST="Nome do seu banco de dados para TESTES"
 ```
 
 ```ruby
 # apps/api/.env
 
 DATABASE_URL="URL para conexão com seu banco de dados"
+CORS_ORIGIN="Endereço do seu frontend"
+PORT="Porta do exposição do seu servidor"
+JWT_SECRET="Chave secreta e para encriptar o token. DEVE SER A MESMA CHAVE DO PROJETO WEB"
+ADMIN_EMAIL="Email para criar usuário ADMIN pelo script de seed"
+ADMIN_PASSWORD="Senha para criar usuário ADMIN pelo script de seed"
+```
+
+```ruby
+# apps/api/.env.test
+
+DATABASE_URL="URL para conexão com seu banco de dados de TESTES"
 CORS_ORIGIN="Endereço do seu frontend"
 PORT="Porta do exposição do seu servidor"
 JWT_SECRET="Chave secreta e para encriptar o token. DEVE SER A MESMA CHAVE DO PROJETO WEB"
@@ -123,7 +135,17 @@ npx prisma generate
 
 ---
 
-**6. Rode o comando do docker-compose para fazer o build da imagem do banco de dados:**
+**6. Rode as migrations para popular o banco de dados:**
+
+```
+npm run migrate:dev
+```
+
+---
+
+---
+
+**7. Rode o comando do docker-compose para fazer o build da imagem do banco de dados:**
 
 ```
 docker-compose -f docker-compose.yml up -d
@@ -131,17 +153,29 @@ docker-compose -f docker-compose.yml up -d
 
 ---
 
-**7. No root, inicie a aplicação:**
+**8. No root, inicie a aplicação:**
 
 ```
 npm run dev
 ```
 
 ## Testes
-Para rodar testes, navegue até o diretório da api e rode o comando:
+
+Para rodar testes, siga os passos a seguir:
+
+**1. Execute as migrations para o banco de testes:**
+
+```
+npm run migrate:test
+```
+
+---
+
+**2. Rode os comandos a seguir para navegar até a api e rodar os testes:**
+
 ```ruby
 cd apps/api
 npm run test
 ```
-![test-suit](https://github.com/user-attachments/assets/92d69565-4149-4b65-93a7-28f098f3ffaf)
 
+![test-suit](https://github.com/user-attachments/assets/92d69565-4149-4b65-93a7-28f098f3ffaf)
