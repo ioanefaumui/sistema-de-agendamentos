@@ -10,5 +10,5 @@ export const registerFormSchema = z
   })
   .refine((data) => data.password === data.passwordCopy, {
     message: "Senhas não são iguais",
-    path: ["password", "passwordCopy"],
+    path: ["passwordCopy"],
   });

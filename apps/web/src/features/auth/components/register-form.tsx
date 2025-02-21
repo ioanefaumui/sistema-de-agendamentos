@@ -102,7 +102,7 @@ export function RegisterForm() {
               name="passwordCopy"
               render={({ field }) => (
                 <FormItem className="mt-4">
-                  <FormLabel>Repetir senha</FormLabel>
+                  <FormLabel>Confirmar senha</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
